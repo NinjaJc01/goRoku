@@ -1,0 +1,18 @@
+.controller {
+    border-radius: 5px;
+    flex: 1;
+    height: 90px;
+    width: 90px;
+    margin: 10px;
+    border: none;
+}
+
+.flexone {
+    flex: 1;
+}
+
+.row {
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+}

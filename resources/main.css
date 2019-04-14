@@ -1,0 +1,49 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+img {
+    vertical-align: top;
+}
+
+.lightfg {
+    background-color: #505050;
+}
+
+.darkfg {
+    background-color: #875A8F;
+}
+
+.darkbg {
+    background: #252525;
+}
+
+.darkimg {
+    filter: invert(90%)
+}
+
+.darktext {
+    color: whitesmoke;
+}
+
+.lightbg {
+    background: #875A8F;
+}
+
+.lighttext {
+    color: black;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: normal;
+}
+
+.flex-item {
+    margin: 1%;
+}
+
+.channelImage {
+    border-radius: 10px;
+}

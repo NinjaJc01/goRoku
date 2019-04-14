@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Remote</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/client/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="remote.css">
+    <script src="/client/main.js"></script>
+    <script src="/client/common.js"></script>
+    <script src="remote.js"></script>
+</head>
+
+<body onload="onload(); attachKeypress();">
+    <div>
+        <a id="backbutton" onclick="window.history.back()"><img class="vector" src="/client/img/arrow_back.svg"></a>
+        <a href="/client/channels"><img class="vector" src="/client/img/apps.svg"></a>
+        <a href="/client/settings"><img class="vector" src="/client/img/settings.svg"></a>
+        <a onclick="toggleKeypress()"><img id="keyboard" class="vector" src="/client/img/keyboard.svg"></a>
+    </div>
+    <div class="row">
+        <button class="controller foreground" onclick="sendKeypress('back')">
+            <img class="vector" src="/client/img/arrow_back.svg">
+        </button>
+        <button class="controller foreground" onclick="sendKeypress('search')">
+            <img class="vector" src="/client/img/search.svg">
+        </button>
+    </div>
+    <div class="row">
+        <button class="controller foreground" onclick="sendKeypress('instantreplay')">
+            <img class="vector" src="/client/img/replay.svg">
+        </button>
+        <button class="controller foreground" onclick="sendKeypress('up')">
+            <img class="vector" src="/client/img/arrow_up.svg">
+        </button>
+        <button class="controller foreground" onclick="sendKeypress('info')">
+            <img class="vector" src="/client/img/info.svg">
+        </button>
+    </div>
+    <div class="row">
+        <button class="controller foreground" onclick="sendKeypress('left')">
+            <img class="vector" src="/client/img/arrow_left.svg">
+        </button>
+        <button class="controller foreground" onclick="sendKeypress('select')">
+            <img class="vector" src="/client/img/select.svg">
+        </button>
+        <button class="controller foreground" onclick="sendKeypress('right')">
+            <img class="vector" src="/client/img/arrow_right.svg">
+        </button>
+    </div>
+    <div class="row">
+        <button class="controller foreground" onclick="sendKeypress('play')">
+            <img class="vector" src="/client/img/playpause.svg">
+        </button>
+        <button class="controller foreground" onclick="sendKeypress('down')">
+            <img class="vector" src="/client/img/arrow_down.svg">
+        </button>
+        <button class="controller foreground" onclick="sendKeypress('home')">
+            <img class="vector" src="/client/img/home.svg">
+        </button>
+    </div>
+</body>
+
+</html>
