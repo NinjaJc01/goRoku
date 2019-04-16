@@ -15,7 +15,7 @@ Open in your browser: "localhost:8081/client/remote" (Assuming you're running it
   
 Interface:
 +There are three pages, Remote, Apps/Channels and Settings.
-+From the Remote page, you can type into search boxes etc and navigate with arrow keys ("\`" to select, Esc as a back button)
++From the Remote page, you can type into search boxes etc and navigate with arrow keys ("\`" to select, Esc as a back button). The keyboard button enables/disables keyboard input.
 +From the Apps/Channels page, you can select a channel to switch to by clicking one of the images.
 +From the Settings page, you can switch themes (Light or Dark themes) and also set the IP Address of the Roku to control.
 
