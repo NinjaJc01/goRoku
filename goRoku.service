@@ -1,0 +1,14 @@
+[Unit]
+Description=goRoku roku web controller
+
+[Service]
+User=james
+Group=james
+WorkingDirectory=/home/james
+ExecStart=/home/james/goRoku
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
