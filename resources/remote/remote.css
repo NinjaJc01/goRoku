@@ -16,3 +16,10 @@
     margin: 0 auto;
     display: flex;
 }
+
+#bottomBox {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}

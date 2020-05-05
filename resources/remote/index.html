@@ -6,61 +6,62 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Remote</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="/client/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/main.css">
     <link rel="stylesheet" type="text/css" media="screen" href="remote.css">
-    <script src="/client/main.js"></script>
-    <script src="/client/common.js"></script>
+    <script src="/main.js"></script>
+    <script src="/common.js"></script>
     <script src="remote.js"></script>
 </head>
 
-<body onload="onload(); attachKeypress();">
+<body onload="onload(); attachKeypress(); remoteOnload();">
     <div>
-        <a id="backbutton" onclick="window.history.back()"><img class="vector" src="/client/img/arrow_back.svg"></a>
-        <a href="/client/channels"><img class="vector" src="/client/img/apps.svg"></a>
-        <a href="/client/settings"><img class="vector" src="/client/img/settings.svg"></a>
-        <a onclick="toggleKeypress()"><img id="keyboard" class="vector" src="/client/img/keyboard.svg"></a>
+        <a id="backbutton" onclick="window.history.back()"><img class="vector" src="/img/arrow_back.svg"></a>
+        <a href="/channels"><img class="vector" src="/img/apps.svg"></a>
+        <a href="/settings"><img class="vector" src="/img/settings.svg"></a>
+        <a onclick="toggleKeypress()"><img id="keyboard" class="vector" src="/img/keyboard.svg"></a>
     </div>
     <div class="row">
         <button class="controller foreground" onclick="sendKeypress('back')">
-            <img class="vector" src="/client/img/arrow_back.svg">
+            <img class="vector" src="/img/arrow_back.svg">
         </button>
         <button class="controller foreground" onclick="sendKeypress('search')">
-            <img class="vector" src="/client/img/search.svg">
+            <img class="vector" src="/img/search.svg">
         </button>
     </div>
     <div class="row">
         <button class="controller foreground" onclick="sendKeypress('instantreplay')">
-            <img class="vector" src="/client/img/replay.svg">
+            <img class="vector" src="/img/replay.svg">
         </button>
         <button class="controller foreground" onclick="sendKeypress('up')">
-            <img class="vector" src="/client/img/arrow_up.svg">
+            <img class="vector" src="/img/arrow_up.svg">
         </button>
         <button class="controller foreground" onclick="sendKeypress('info')">
-            <img class="vector" src="/client/img/info.svg">
+            <img class="vector" src="/img/info.svg">
         </button>
     </div>
     <div class="row">
         <button class="controller foreground" onclick="sendKeypress('left')">
-            <img class="vector" src="/client/img/arrow_left.svg">
+            <img class="vector" src="/img/arrow_left.svg">
         </button>
         <button class="controller foreground" onclick="sendKeypress('select')">
-            <img class="vector" src="/client/img/select.svg">
+            <img class="vector" src="/img/select.svg">
         </button>
         <button class="controller foreground" onclick="sendKeypress('right')">
-            <img class="vector" src="/client/img/arrow_right.svg">
+            <img class="vector" src="/img/arrow_right.svg">
         </button>
     </div>
     <div class="row">
         <button class="controller foreground" onclick="sendKeypress('play')">
-            <img class="vector" src="/client/img/playpause.svg">
+            <img class="vector" src="/img/playpause.svg">
         </button>
         <button class="controller foreground" onclick="sendKeypress('down')">
-            <img class="vector" src="/client/img/arrow_down.svg">
+            <img class="vector" src="/img/arrow_down.svg">
         </button>
         <button class="controller foreground" onclick="sendKeypress('home')">
-            <img class="vector" src="/client/img/home.svg">
+            <img class="vector" src="/img/home.svg">
         </button>
     </div>
+    <input type="text" id="bottomBox" oninput="textInput()" style="display: none;">
 </body>
 
 </html>

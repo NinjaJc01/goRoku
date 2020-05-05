@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"mime"
 
 	"log"
 	"net/http"
@@ -15,10 +16,12 @@ import (
 
 var channelList map[string]interface{}
 var channelIcons map[string][]byte
+
 //Config is a struct to be used in saving/loading the config file
 type Config struct {
 	IPAddr string `json:"ipaddr"`
 }
+
 var rokuURL = "http://192.168.1.10:8060"
 
 func main() {
@@ -36,23 +39,25 @@ func main() {
 	startServer()
 }
 func startServer() {
+	go mime.AddExtensionType(".css", "text/css; charset=utf-8")
+	go mime.AddExtensionType(".js", "application/javascript; charset=utf-8")
 	portPtr := flag.Int("p", 8081, "Port number to run the server on")
 	flag.Parse()
 	port := *portPtr
 	mr := mux.NewRouter()
 	mr.NotFoundHandler = http.HandlerFunc(notFoundHandler)
 	apiRouter := mr.PathPrefix("/api").Subrouter()
-	//Setup a static router for HTML/CSS/JS
-	mr.PathPrefix("/client/").Handler(http.StripPrefix("/client/", http.FileServer(http.Dir("./resources"))))
 	//API routes
 	rokuRouter := apiRouter.PathPrefix("/roku").Subrouter()
 	//rokuRouter.HandleFunc("/apps", appsHandler)
 	rokuRouter.HandleFunc("/image/{id}", appImageHandler)
 	rokuRouter.PathPrefix("/proxy/").Handler(
 		http.StripPrefix("/api/roku/proxy/",
-		http.HandlerFunc(rokuProxy)))
-	rokuRouter.HandleFunc("/ipaddr",ipHandler)
+			http.HandlerFunc(rokuProxy)))
+	rokuRouter.HandleFunc("/ipaddr", ipHandler)
 	//rokuRouter.HandleFunc("/proxy/", rokuProxy)
+	//Setup a static router for HTML/CSS/JS
+	mr.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("./resources"))))
 	log.Println("Listening for requests")
 	http.ListenAndServe(fmt.Sprintf(":%v", port), mr)
 }
@@ -89,49 +94,49 @@ func appImageHandler(w http.ResponseWriter, r *http.Request) {
 func rokuProxy(w http.ResponseWriter, r *http.Request) {
 	destination := r.URL.String()
 	switch r.Method {
-		case "GET":
-			resp, err := http.Get(rokuURL+"/"+destination)
-			if err != nil {
-				log.Println(err.Error())
-				w.WriteHeader(500)
-				return
-			}
-			if resp.StatusCode != 200 {
-				log.Println("Proxy GET failed with status code:\t",resp.StatusCode)
-				w.WriteHeader(resp.StatusCode)
-				return
-			}
-			content, err := ioutil.ReadAll(resp.Body)
-			if err != nil {
-				log.Println(err.Error())
-				w.WriteHeader(500)
-				return
-			}
-			w.Write(content)
+	case "GET":
+		resp, err := http.Get(rokuURL + "/" + destination)
+		if err != nil {
+			log.Println(err.Error())
+			w.WriteHeader(500)
 			return
-		case "POST":
-			resp, err := http.Post(rokuURL+"/"+destination,"text/plain",nil)
-			if err != nil {
-				log.Println(err.Error())
-				w.WriteHeader(500)
-				return
-			}
-			if resp.StatusCode != 200 {
-				log.Println("Proxy POST failed with status code:\t",resp.StatusCode)
-				w.WriteHeader(resp.StatusCode)
-				return
-			}
-			content, err := ioutil.ReadAll(resp.Body)
-			if err != nil {
-				log.Println(err.Error())
-				w.WriteHeader(500)
-				return
-			}
-			w.Write(content)
+		}
+		if resp.StatusCode != 200 {
+			log.Println("Proxy GET failed with status code:\t", resp.StatusCode)
+			w.WriteHeader(resp.StatusCode)
 			return
-		default:
-			w.WriteHeader(405)
-			w.Header().Add("Allow", "GET, POST")
+		}
+		content, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Println(err.Error())
+			w.WriteHeader(500)
+			return
+		}
+		w.Write(content)
+		return
+	case "POST":
+		resp, err := http.Post(rokuURL+"/"+destination, "text/plain", nil)
+		if err != nil {
+			log.Println(err.Error())
+			w.WriteHeader(500)
+			return
+		}
+		if resp.StatusCode != 200 {
+			log.Println("Proxy POST failed with status code:\t", resp.StatusCode)
+			w.WriteHeader(resp.StatusCode)
+			return
+		}
+		content, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Println(err.Error())
+			w.WriteHeader(500)
+			return
+		}
+		w.Write(content)
+		return
+	default:
+		w.WriteHeader(405)
+		w.Header().Add("Allow", "GET, POST")
 	}
 }
 func ipHandler(w http.ResponseWriter, r *http.Request) {
@@ -142,22 +147,23 @@ func ipHandler(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(500)
 			return
 		}
-		log.Println("buf:",string(buffer))
+		log.Println("buf:", string(buffer))
 		w.Write([]byte("OK"))
-		conf := Config{IPAddr:string(buffer)}
+		conf := Config{IPAddr: string(buffer)}
 		content, err := json.Marshal(conf)
 		if err != nil {
 			log.Println(err.Error())
 			w.WriteHeader(500)
 			return
 		}
-		err = ioutil.WriteFile("config.json",content, 0660)
+		err = ioutil.WriteFile("config.json", content, 0660)
 		if err != nil {
 			log.Println(err.Error())
 			w.WriteHeader(500)
 			return
 		}
-	} else if r.Method == "GET" {//If I need to send back the IP instead
+		rokuURL = conf.IPAddr;
+	} else if r.Method == "GET" { //If I need to send back the IP instead
 		w.Header().Add("Content-type", "text/plain")
 		w.Write([]byte(rokuURL))
 	} else {
